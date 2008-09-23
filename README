@@ -3,6 +3,11 @@ NiceUrl
 
 This acts_as extension provides the capabilities for creating a nice url based on an attribute of the current object. You can set / unset the object id in front of the URL and choose the object attribute to use to generate the URL.
 
+Installation
+============
+
+ruby script/plugin install git://github.com/Bounga/acts_as_nice_url.git
+
 
 Example
 =======
@@ -10,5 +15,11 @@ Example
 	class Author < ActiveRecord::Base
 	  acts_as_nice_url :id => false, :title => :full_name
 	end
+	
+Other
+=====
+
+Problems, comments, and suggestions are welcome at nico@bounga.org
+
 
 Copyright (c) 2008 Nicolas Cavigneaux, released under the MIT license
