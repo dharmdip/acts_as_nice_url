@@ -40,13 +40,22 @@ module Bounga
       # All the methods available to a record that has had <tt>acts_as_nice_url</tt> specified.
       module InstanceMethods
         def to_param
-          str = Iconv.new('us-ascii//TRANSLIT', 'utf-8').iconv(nice_title.to_s).strip.downcase
-          str = str.gsub(/\s+/, '-').gsub(/[^a-z0-9\-\.,\*]/, '').gsub(/([\-\.,\*]){2,}/, '\1')
+          # Convert non-ascii characters
+          s = Iconv.new('us-ascii//TRANSLIT', 'utf-8').iconv(nice_title.to_s).strip.downcase
+          # Remove spaces
+          s = s.gsub(/\s+/, '-')
+          # Remove reserved characters
+          s = s.gsub(/[^a-z0-9\-]/, '')
+          # Remove multiple dashes
+          s = s.gsub(/([\-]){2,}/, '\1')
+          # Remove ending dashes
+          s = s.gsub(/[\-]+$/, '')
+          
           if nice_id
-            str = [self.id, str].join('-')
+            s = [self.id, s].join('-')
           end
           
-          str
+          return s
         end
       end
     end

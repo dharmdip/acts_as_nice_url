@@ -76,4 +76,26 @@ class NiceUrlTest < Test::Unit::TestCase
   def test_string
     assert_equal "1-nicolas-cavigneaux", AuthorString.find(:first).to_param
   end
+  
+  def test_non_ascii_char
+    # TODO
+  end
+  
+  def test_reserved_char
+    author = AuthorDefault.find(:first)
+    author.name = "Rails lover%/...#?*!"
+    assert_equal "1-rails-lover", author.to_param
+  end
+  
+  def test_multiple_dashes
+    author = AuthorDefault.find(:first)
+    author.name = "Rails ---lover"
+    assert_equal "1-rails-lover", author.to_param
+  end
+  
+  def test_end_dashes
+    author = AuthorDefault.find(:first)
+    author.name = "Rails lover---"
+    assert_equal "1-rails-lover", author.to_param
+  end
 end
